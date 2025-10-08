@@ -2,7 +2,7 @@ const axios = require("axios");
 
 // CWA API 設定
 const CWA_API_KEY = process.env.CWA_API_KEY;
-const CWA_API_BASE_URL = `https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=${CWA_API_KEY}&locationName=臺中市`;
+const CWA_API_BASE_URL = "https://opendata.cwa.gov.tw/api";
 
 /**
  * 取得台中市天氣預報
@@ -23,12 +23,7 @@ const getTaichungWeather = async (req, res) => {
     // API 文件: https://opendata.cwa.gov.tw/dist/opendata-swagger.html
     // F-D0047-071: 台中市未來一週天氣預報
     const response = await axios.get(
-      `${CWA_API_BASE_URL}/v1/rest/datastore/F-D0047-071`,
-      {
-        params: {
-          Authorization: CWA_API_KEY,
-        },
-      }
+      `${CWA_API_BASE_URL}/v1/rest/datastore/F-D0047-071?Authorization=${CWA_API_KEY}&locationName=臺中市`
     );
 
     // 取得台中市的天氣資料
