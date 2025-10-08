@@ -1,8 +1,8 @@
 const axios = require("axios");
 
 // CWA API 設定
-const CWA_API_BASE_URL = "https://opendata.cwa.gov.tw/api";
 const CWA_API_KEY = process.env.CWA_API_KEY;
+const CWA_API_BASE_URL = `https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=${CWA_API_KEY}&locationName=臺中市`;
 
 /**
  * 取得台中市天氣預報
