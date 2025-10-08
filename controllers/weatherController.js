@@ -7,7 +7,7 @@ const CWA_API_BASE_URL = "https://opendata.cwa.gov.tw/api";
 /**
  * 取得台中市天氣預報
  * CWA 氣象資料開放平臺 API
- * 使用「一般天氣預報-台中市未來一週天氣預報」資料集
+ * 使用「一般天氣預報-今明 36 小時天氣預報」資料集
  */
 const getTaichungWeather = async (req, res) => {
   try {
@@ -19,15 +19,20 @@ const getTaichungWeather = async (req, res) => {
       });
     }
 
-    // 呼叫 CWA API - 台中市一週天氣預報（7天）
+    // 呼叫 CWA API - 一般天氣預報（36小時）
     // API 文件: https://opendata.cwa.gov.tw/dist/opendata-swagger.html
-    // F-D0047-071: 台中市未來一週天氣預報
     const response = await axios.get(
-      `${CWA_API_BASE_URL}/v1/rest/datastore/F-D0047-071?Authorization=${CWA_API_KEY}&locationName=臺中市`
+      `${CWA_API_BASE_URL}/v1/rest/datastore/F-C0032-001`,
+      {
+        params: {
+          Authorization: CWA_API_KEY,
+          locationName: "臺中市",
+        },
+      }
     );
 
     // 取得台中市的天氣資料
-    const locationData = response.data.records.locations[0].location[0];
+    const locationData = response.data.records.location[0];
 
     if (!locationData) {
       return res.status(404).json({
@@ -91,6 +96,7 @@ const getTaichungWeather = async (req, res) => {
       data: weatherData,
     });
   } catch (error) {
+    console.log(error);
     console.error("取得天氣資料失敗:", error.message);
 
     if (error.response) {
@@ -102,6 +108,7 @@ const getTaichungWeather = async (req, res) => {
       });
     }
 
+    console.log("取得天氣資料錯誤:", error);
     // 其他錯誤
     res.status(500).json({
       error: "伺服器錯誤",
